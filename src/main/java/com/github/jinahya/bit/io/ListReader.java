@@ -35,7 +35,7 @@ import java.util.function.ToIntFunction;
  */
 public class ListReader<E>
         implements BitReader<List<E>>,
-                   CountReader<ListReader<E>> {
+                   CountReader {
 
     /**
      * Creates a new instance for reading lists of specified element type using specified element reader.
@@ -47,6 +47,7 @@ public class ListReader<E>
         this.elementReader = Objects.requireNonNull(elementReader, "elementReader is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public List<E> read(final BitInput input) throws IOException {
         BitIoObjects.requireNonNullInput(input);
@@ -63,7 +64,8 @@ public class ListReader<E>
         this.countReader = Objects.requireNonNull(countReader, "countReader is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final BitReader<? extends E> elementReader;
 
-    private ToIntFunction<? super BitInput> countReader = BitIoConstants.COUNT_READER;
+    private ToIntFunction<? super BitInput> countReader = CountReader.COUNT_READER_31;
 }

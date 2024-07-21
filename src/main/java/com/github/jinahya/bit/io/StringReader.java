@@ -32,8 +32,10 @@ import java.util.function.ToIntFunction;
  * @see StringWriter
  */
 public class StringReader
-        extends FilterBitReader<String, byte[]>
-        implements CountReader<StringReader> {
+        extends FilterBitReader<byte[], String>
+        implements CountReader {
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance for reading {@link StandardCharsets#US_ASCII} decoded strings in a compressed-manner.
@@ -48,6 +50,8 @@ public class StringReader
         return new StringReader(delegate, StandardCharsets.US_ASCII);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Creates a new instance for reading {@link StandardCharsets#UTF_8} decoded strings in a compressed-manner.
      *
@@ -59,17 +63,20 @@ public class StringReader
         return new StringReader(delegate, StandardCharsets.UTF_8);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Creates a new instance with specified arguments.
      *
      * @param delegate a reader for reading encoded bytes.
-     * @param charset  a charset for decoding a value.
+     * @param charset  a charset for decoding values.
      */
     public StringReader(final ByteArrayReader delegate, final Charset charset) {
         super(delegate);
         this.charset = Objects.requireNonNull(charset, "charset is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     protected String filter(final byte[] value) {
         return new String(value, charset);
@@ -77,8 +84,9 @@ public class StringReader
 
     @Override
     public void setCountReader(final ToIntFunction<? super BitInput> countReader) {
-        ((CountReader<?>) delegate).setCountReader(countReader);
+        ((CountReader) delegate).setCountReader(countReader);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final Charset charset;
 }

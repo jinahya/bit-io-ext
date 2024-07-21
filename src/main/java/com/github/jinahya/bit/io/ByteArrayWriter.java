@@ -32,8 +32,15 @@ import java.util.function.ObjIntConsumer;
  */
 public class ByteArrayWriter
         implements BitWriter<byte[]>,
-                   CountWriter<ByteArrayWriter> {
+                   CountWriter {
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * .
+     *
+     * @see ByteArrayReader.Unsigned
+     */
     static class Unsigned
             extends ByteArrayWriter {
 
@@ -58,16 +65,29 @@ public class ByteArrayWriter
      * @param elementSize a number of bits for each element in the array; between {@code 1} (inclusive) and
      *                    {@value Byte#SIZE} (exclusive).
      * @return a new instance.
+     * @see ByteArrayReader#unsigned(int)
      */
     public static ByteArrayWriter unsigned(final int elementSize) {
         return new Unsigned(elementSize);
     }
 
-    private static class CompressedAscii
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * .
+     *
+     * @see ByteArrayReader.CompressedAscii
+     */
+    static class CompressedAscii
             extends Unsigned {
 
+        /**
+         * .
+         *
+         * @see ByteArrayReader.CompressedAscii.PrintableOnly
+         */
         // https://en.wikipedia.org/wiki/ASCII#Printable_characters
-        private static class PrintableOnly
+        static class PrintableOnly
                 extends CompressedAscii {
 
             private PrintableOnly() {
@@ -102,6 +122,7 @@ public class ByteArrayWriter
      * @param printableOnly a flag for printable characters only; {@code true} for printable ascii characters only;
      *                      {@code false} otherwise.
      * @return a new instance.
+     * @see ByteArrayReader.CompressedAscii#compressedAscii(boolean)
      */
     public static ByteArrayWriter compressedAscii(final boolean printableOnly) {
         if (printableOnly) {
@@ -110,22 +131,26 @@ public class ByteArrayWriter
         return new CompressedAscii();
     }
 
-    /**
-     * Creates a new instance, for writing arrays of ASCII bytes, which writes an unsigned {@code 31}-bit {@code int}
-     * value for the length of arrays.
-     *
-     * @param printableOnly a flag for printable characters only; {@code true} for printable ascii characters only;
-     *                      {@code false} otherwise.
-     * @return a new instance.
-     */
-    public static ByteArrayWriter compressedAscii31(final boolean printableOnly) {
-        return compressedAscii(printableOnly);
-    }
+//    /**
+//     * Creates a new instance, for writing arrays of ASCII bytes, which writes an unsigned {@code 31}-bit {@code int}
+//     * value for the length of arrays.
+//     *
+//     * @param printableOnly a flag for printable characters only; {@code true} for printable ascii characters only;
+//     *                      {@code false} otherwise.
+//     * @return a new instance.
+//     */
+//    public static ByteArrayWriter compressedAscii31(final boolean printableOnly) {
+//        return compressedAscii(printableOnly);
+//    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A writer for writing an array of UTF-8 bytes as a compressed manner.
+     * A writer for writing arrays of UTF-8 bytes in a compressed manner.
+     *
+     * @see ByteArrayReader.CompressedUtf8
      */
-    private static class CompressedUtf8
+    static class CompressedUtf8
             extends ByteArrayWriter {
 
         private CompressedUtf8() {
@@ -210,7 +235,8 @@ public class ByteArrayWriter
         this.countWriter = Objects.requireNonNull(countWriter, "countWriter is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final int elementSize;
 
-    private ObjIntConsumer<? super BitOutput> countWriter = BitIoConstants.COUNT_WRITER;
+    private ObjIntConsumer<? super BitOutput> countWriter = CountWriter.COUNT_WRITER_31;
 }

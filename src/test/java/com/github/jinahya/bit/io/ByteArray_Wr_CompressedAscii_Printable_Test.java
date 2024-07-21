@@ -112,8 +112,14 @@ class ByteArray_Wr_CompressedAscii_Printable_Test {
     @ParameterizedTest
     void wr__UncompressedCount(final byte[] expected) throws IOException {
         final byte[] actual = BitIoTestUtils.wr1u(o -> {
-            ByteArrayWriter.compressedAscii(PRINTABLE_ONLY).countWriter(COUNT_WRITER).write(o, expected);
-            return i -> ByteArrayReader.compressedAscii(PRINTABLE_ONLY).countReader(COUNT_READER).read(i);
+            final var writer = ByteArrayWriter.compressedAscii(PRINTABLE_ONLY);
+            writer.setCountWriter(COUNT_WRITER);
+            writer.write(o, expected);
+            return i -> {
+                final var reader = ByteArrayReader.compressedAscii(PRINTABLE_ONLY);
+                reader.setCountReader(COUNT_READER);
+                return reader.read(i);
+            };
         });
         assertThat(actual).isEqualTo(expected);
     }

@@ -108,8 +108,14 @@ class ByteArray_Wr_CompressedUtf8_Test {
     @ParameterizedTest
     void wr__UncompressedCount(final byte[] expected) throws IOException {
         final byte[] actual = BitIoTestUtils.wr1u(o -> {
-            ByteArrayWriter.compressedUtf8().countWriter(COUNT_WRITER).write(o, expected);
-            return i -> ByteArrayReader.compressedUtf8().countReader(COUNT_READER).read(i);
+            final var writer = ByteArrayWriter.compressedUtf8();
+            writer.setCountWriter(COUNT_WRITER);
+            writer.write(o, expected);
+            return i -> {
+                final var reader = ByteArrayReader.compressedUtf8();
+                reader.setCountReader(COUNT_READER);
+                return reader.read(i);
+            };
         });
         assertThat(actual).isEqualTo(expected);
     }

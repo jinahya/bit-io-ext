@@ -48,7 +48,7 @@ final class DoubleTestParameters {
         return Stream.concat(
                 IntStream.range(0, 16)
                         .mapToObj(i -> Arguments.of(BitIoRandom.nextExponentSizeForDouble(),
-                                BitIoRandom.nextSignificandSizeForDouble())),
+                                                    BitIoRandom.nextSignificandSizeForDouble())),
                 Stream.of(Arguments.of(FloatConstants.SIZE_EXPONENT, FloatConstants.SIZE_SIGNIFICAND))
         );
     }

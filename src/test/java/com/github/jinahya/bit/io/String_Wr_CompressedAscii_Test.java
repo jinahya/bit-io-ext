@@ -82,8 +82,14 @@ class String_Wr_CompressedAscii_Test {
     @ParameterizedTest
     void wr__UncompressedCount(final String expected) throws IOException {
         final String actual = BitIoTestUtils.wr1u(o -> {
-            StringWriter.compressedAscii(PRINTABLE_ONLY).countWriter(COUNT_WRITER).write(o, expected);
-            return i -> StringReader.compressedAscii(PRINTABLE_ONLY).countReader(COUNT_READER).read(i);
+            final var writer = StringWriter.compressedAscii(PRINTABLE_ONLY);
+            writer.setCountWriter(COUNT_WRITER);
+            writer.write(o, expected);
+            return i -> {
+                final var reader = StringReader.compressedAscii(PRINTABLE_ONLY);
+                reader.setCountReader(COUNT_READER);
+                return reader.read(i);
+            };
         });
         assertThat(actual).isEqualTo(expected);
     }

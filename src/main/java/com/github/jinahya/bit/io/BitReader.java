@@ -23,7 +23,7 @@ package com.github.jinahya.bit.io;
 import java.io.IOException;
 
 /**
- * An interface for reading non-primitive values.
+ * An interface for reading values of a specific type.
  *
  * @param <T> value type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -36,7 +36,9 @@ public interface BitReader<T> {
      * Returns a new instance handles {@code null} values.
      *
      * @return a new instance handles {@code null} values.
+     * @deprecated
      */
+    @Deprecated
     default BitReader<T> nullable() {
         return FilterBitReader.nullable(this);
     }

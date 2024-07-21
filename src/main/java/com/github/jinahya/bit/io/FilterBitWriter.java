@@ -27,12 +27,15 @@ import java.util.function.Function;
 /**
  * A value writer for writing filtered values.
  *
- * @param <T> original value type parameter
- * @param <U> filtered value type parameter
+ * @param <T>      original value type parameter
+ * @param <TARGET> filtered value type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilterBitReader
  */
-public abstract class FilterBitWriter<T, U>
+@SuppressWarnings({
+        "java:S119"
+})
+public abstract class FilterBitWriter<T, TARGET>
         implements BitWriter<T> {
 
     /**
@@ -41,17 +44,16 @@ public abstract class FilterBitWriter<T, U>
      * @param delegate a value writer for writing filtered values.
      * @param mapper   a mapper for mapping original values.
      * @param <T>      original value type parameter
-     * @param <U>      filtered value type parameter
+     * @param <TARGET> filtered value type parameter
      * @return a new instance.
      * @see FilterBitReader#mapping(BitReader, Function)
      */
-    public static <T, U> FilterBitWriter<T, U> mapping(final BitWriter<? super U> delegate,
-                                                       final Function<? super T, ? extends U> mapper) {
-        Objects.requireNonNull(delegate, "delegate is null");
+    public static <T, TARGET> BitWriter<T> mapping(final BitWriter<? super TARGET> delegate,
+                                                   final Function<? super T, ? extends TARGET> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        return new FilterBitWriter<T, U>(delegate) {
+        return new FilterBitWriter<T, TARGET>(delegate) {
             @Override
-            protected U filter(final T value) {
+            protected TARGET filter(final T value) {
                 return mapper.apply(value);
             }
         };
@@ -87,29 +89,29 @@ public abstract class FilterBitWriter<T, U>
     /**
      * Returns a new writer handles {@code null} values on the behalf of specified writer.
      *
-     * @param writer the writer; must be not {@code null} nor already a <em>nullable</em>.
+     * @param writer the writer.
      * @param <T>    value type parameter
      * @return a new writer handles {@code null} values.
-     * @throws IllegalArgumentException if {@code writer} is already a <em>nullable</em>.
+     * @see com.github.jinahya.bit.io.FilterBitReader#nullable(BitReader)
      */
     public static <T> BitWriter<T> nullable(final BitWriter<? super T> writer) {
-        if (BitIoObjects.requireNonNullWriter(writer) instanceof Nullable) {
-            throw new IllegalArgumentException(
-                    BitIoConstants.MESSAGE_ILLEGAL_ARGUMENT_ALREADY_NULLABLE + "; " + writer);
-        }
         return new Nullable<>(writer);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
-     * Creates a new instance which wraps specified delegate.
+     * Creates a new instance on top of specified delegate.
      *
      * @param delegate the delegate to wrap.
+     * @see FilterBitReader#FilterBitReader(BitReader)
      */
-    protected FilterBitWriter(final BitWriter<? super U> delegate) {
+    protected FilterBitWriter(final BitWriter<? super TARGET> delegate) {
         super();
         this.delegate = Objects.requireNonNull(delegate, "delegate is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public void write(final BitOutput output, final T value) throws IOException {
         delegate.write(output, filter(value));
@@ -121,10 +123,12 @@ public abstract class FilterBitWriter<T, U>
      * @param value the original value to filter.
      * @return a filter value.
      */
-    protected abstract U filter(final T value);
+    protected abstract TARGET filter(final T value);
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * The writer for writing filtered values.
      */
-    final BitWriter<? super U> delegate;
+    final BitWriter<? super TARGET> delegate;
 }

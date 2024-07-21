@@ -32,9 +32,10 @@ import java.util.function.ToIntFunction;
  */
 public class ByteArrayReader
         implements BitReader<byte[]>,
-                   CountReader<ByteArrayReader> {
+                   CountReader {
 
-    private static class Unsigned
+    // -----------------------------------------------------------------------------------------------------------------
+    static class Unsigned
             extends ByteArrayReader {
 
         @SuppressWarnings({
@@ -58,20 +59,29 @@ public class ByteArrayReader
      * @param elementSize a number of bits for each element in the array; between {@code 1} (inclusive) and
      *                    {@value Byte#SIZE} (exclusive).
      * @return a new instance.
+     * @see ByteArrayWriter#unsigned(int)
      */
     public static ByteArrayReader unsigned(final int elementSize) {
         return new Unsigned(elementSize);
     }
 
-    private static class CompressedAscii
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * .
+     *
+     * @see ByteArrayWriter.CompressedAscii
+     */
+    static class CompressedAscii
             extends Unsigned {
 
         /**
          * An ASCII bytes reader for printable characters.
          *
          * @see <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters">Printable characters</a>
+         * @see ByteArrayWriter.CompressedAscii.PrintableOnly
          */
-        private static class PrintableOnly
+        static class PrintableOnly
                 extends CompressedAscii {
 
             private PrintableOnly() {
@@ -111,10 +121,14 @@ public class ByteArrayReader
         return new CompressedAscii();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * A reader for reading an array of UTF-8 bytes as a compressed manner.
+     *
+     * @see ByteArrayWriter.CompressedUtf8
      */
-    private static class CompressedUtf8
+    static class CompressedUtf8
             extends ByteArrayReader {
 
         private CompressedUtf8() {
@@ -158,6 +172,8 @@ public class ByteArrayReader
         return new CompressedUtf8();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Creates a new instance.
      *
@@ -169,6 +185,7 @@ public class ByteArrayReader
         this.elementSize = BitIoConstraints.requireValidSizeForByte(false, elementSize);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public byte[] read(final BitInput input) throws IOException {
         final int length = countReader.applyAsInt(input);
@@ -196,7 +213,8 @@ public class ByteArrayReader
         this.countReader = Objects.requireNonNull(countReader, "countReader is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final int elementSize;
 
-    private ToIntFunction<? super BitInput> countReader = BitIoConstants.COUNT_READER;
+    private ToIntFunction<? super BitInput> countReader = CountReader.COUNT_READER_31;
 }

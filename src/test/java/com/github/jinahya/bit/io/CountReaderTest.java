@@ -28,7 +28,7 @@ import java.util.Objects;
  * @param <T> implementation class type parameter.
  * @see CountWriterTest
  */
-abstract class CountReaderTest<T extends CountReader<T>> {
+abstract class CountReaderTest<T extends CountReader> {
 
     CountReaderTest(final Class<T> countReaderClass) {
         super();

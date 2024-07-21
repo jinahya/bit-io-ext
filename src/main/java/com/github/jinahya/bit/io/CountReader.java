@@ -20,6 +20,7 @@ package com.github.jinahya.bit.io;
  * #L%
  */
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.function.ToIntFunction;
@@ -27,11 +28,35 @@ import java.util.function.ToIntFunction;
 /**
  * An interface for readers need to read a number of sub-values.
  *
- * @param <T> self type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see CountWriter
  */
-public interface CountReader<T extends CountReader<T>> {
+public interface CountReader {
+
+    /**
+     * Returns a new instance reads {@code count} values of specified bits.
+     *
+     * @param size the number of bits to read for {@code count} values.
+     * @return a new instance.
+     */
+    static ToIntFunction<BitInput> newCountReader(final int size) {
+        BitIoConstraints.requireValidSizeForInt(true, size);
+        return i -> {
+            try {
+                return i.readInt(true, size);
+            } catch (final IOException ioe) {
+                throw new RuntimeException("failed to read count from " + i, ioe);
+            }
+        };
+    }
+
+    ToIntFunction<BitInput> COUNT_READER_8 = newCountReader(BitIoConstants.SIZE_8);
+
+    ToIntFunction<BitInput> COUNT_READER_16 = newCountReader(BitIoConstants.SIZE_16);
+
+    ToIntFunction<BitInput> COUNT_READER_31 = newCountReader(BitIoConstants.SIZE_31);
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Configures to use specified function for reading the {@code count} of elements.
@@ -53,17 +78,5 @@ public interface CountReader<T extends CountReader<T>> {
         } catch (final ReflectiveOperationException roe) {
             throw new RuntimeException("failed to set 'countReader", roe); // NOSONAR
         }
-    }
-
-    /**
-     * Configures to use specified function for reading the {@code count} of elements, and returns this object.
-     *
-     * @param countReader the function applies with an {@code input} and reads the {@code count}.
-     * @return this object.
-     */
-    @SuppressWarnings({"unchecked"})
-    default T countReader(final ToIntFunction<? super BitInput> countReader) {
-        setCountReader(countReader);
-        return (T) this;
     }
 }

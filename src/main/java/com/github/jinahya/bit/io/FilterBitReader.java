@@ -27,36 +27,16 @@ import java.util.function.Function;
 /**
  * A value reader for reading filtered values.
  *
- * @param <T> filtered value type parameter
- * @param <U> original value type parameter
+ * @param <T>        filtered value type parameter
+ * @param <SOURCE> original value type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilterBitWriter
  */
-public abstract class FilterBitReader<T, U>
+@SuppressWarnings({
+        "java:S119"
+})
+public abstract class FilterBitReader<SOURCE, T>
         implements BitReader<T> {
-
-    /**
-     * Creates a new instance which reads value of {@link U} and returns a value of {@link T} mapped by specified
-     * mapper.
-     *
-     * @param delegate a reader for reading original values of {@link U}.
-     * @param mapper   a mapper for mapping values to {@link T}.
-     * @param <T>      filtered value type parameter
-     * @param <U>      original value type parameter
-     * @return a new instance.
-     * @see FilterBitWriter#mapping(BitWriter, Function)
-     */
-    public static <T, U> FilterBitReader<T, U> mapping(final BitReader<? extends U> delegate,
-                                                       final Function<? super U, ? extends T> mapper) {
-        Objects.requireNonNull(delegate, "delegate is null");
-        Objects.requireNonNull(mapper, "mapper is null");
-        return new FilterBitReader<T, U>(delegate) {
-            @Override
-            protected T filter(final U value) {
-                return mapper.apply(value);
-            }
-        };
-    }
 
     private static final class Nullable<T>
             extends FilterBitReader<T, T> {
@@ -89,29 +69,53 @@ public abstract class FilterBitReader<T, U>
     /**
      * Returns a new reader handles {@code null} values on the behalf of specified reader.
      *
-     * @param reader the reader; must be not {@code null} nor already a <em>nullable</em>.
+     * @param reader the reader.
      * @param <T>    value type parameter
      * @return a new reader handles {@code null} values.
-     * @throws IllegalArgumentException if {@code reader} is already a <em>nullable</em>.
+     * @see FilterBitWriter#nullable(BitWriter)
      */
     public static <T> BitReader<T> nullable(final BitReader<? extends T> reader) {
-        if (BitIoObjects.requireNonNullReader(reader) instanceof Nullable) {
-            throw new IllegalArgumentException(
-                    BitIoConstants.MESSAGE_ILLEGAL_ARGUMENT_ALREADY_NULLABLE + "; " + reader);
-        }
         return new Nullable<>(reader);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
-     * Creates a new instance which wraps specified delegate.
+     * Creates a new instance which reads values of {@link SOURCE}, and returns values of {@link T} mapped by specified
+     * mapper.
+     *
+     * @param delegate a reader for reading original values of {@link SOURCE}.
+     * @param mapper   a mapper for mapping values to {@link T}.
+     * @param <SOURCE> original value type parameter
+     * @param <T>      filtered value type parameter
+     * @return a new instance.
+     * @see FilterBitWriter#mapping(BitWriter, Function)
+     */
+    public static <SOURCE, T> BitReader<T> mapping(final BitReader<? extends SOURCE> delegate,
+                                                   final Function<? super SOURCE, ? extends T> mapper) {
+        Objects.requireNonNull(mapper, "mapper is null");
+        return new FilterBitReader<SOURCE, T>(delegate) {
+            @Override
+            protected T filter(final SOURCE value) {
+                return mapper.apply(value);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Creates a new instance on top of specified delegate.
      *
      * @param delegate the delegate to wrap.
+     * @see FilterBitWriter#FilterBitWriter(BitWriter)
      */
-    protected FilterBitReader(final BitReader<? extends U> delegate) {
+    protected FilterBitReader(final BitReader<? extends SOURCE> delegate) {
         super();
         this.delegate = Objects.requireNonNull(delegate, "delegate is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public T read(final BitInput input) throws IOException {
         return filter(delegate.read(input));
@@ -123,10 +127,12 @@ public abstract class FilterBitReader<T, U>
      * @param value the value to map.
      * @return a mapped value.
      */
-    protected abstract T filter(final U value);
+    protected abstract T filter(final SOURCE value);
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * The reader for reading original values.
      */
-    final BitReader<? extends U> delegate;
+    final BitReader<? extends SOURCE> delegate;
 }

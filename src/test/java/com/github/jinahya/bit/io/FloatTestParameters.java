@@ -46,7 +46,7 @@ final class FloatTestParameters {
         return Stream.concat(
                 IntStream.range(0, 16)
                         .mapToObj(i -> Arguments.of(BitIoRandom.nextExponentSizeForFloat(),
-                                BitIoRandom.nextSignificandSizeForFloat())),
+                                                    BitIoRandom.nextSignificandSizeForFloat())),
                 Stream.of(Arguments.of(FloatConstants.SIZE_EXPONENT, FloatConstants.SIZE_SIGNIFICAND))
         );
     }

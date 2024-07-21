@@ -20,6 +20,7 @@ package com.github.jinahya.bit.io;
  * #L%
  */
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.function.ObjIntConsumer;
@@ -27,11 +28,35 @@ import java.util.function.ObjIntConsumer;
 /**
  * An interface for writers need to write a number of sub-values.
  *
- * @param <T> self type parameter.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see CountReader
  */
-public interface CountWriter<T extends CountWriter<T>> {
+public interface CountWriter {
+
+    /**
+     * Returns a new instance reads {@code count} values of specified bits.
+     *
+     * @param size the number of bits to read for {@code count} values.
+     * @return a new instance.
+     */
+    static ObjIntConsumer<BitOutput> newCountWriter(final int size) {
+        BitIoConstraints.requireValidSizeForInt(true, size);
+        return (o, v) -> {
+            try {
+                o.writeInt(true, size, v);
+            } catch (final IOException ioe) {
+                throw new RuntimeException("failed to write count(" + v + ") to " + o, ioe);
+            }
+        };
+    }
+
+    ObjIntConsumer<BitOutput> COUNT_WRITER_8 = newCountWriter(BitIoConstants.SIZE_8);
+
+    ObjIntConsumer<BitOutput> COUNT_WRITER_16 = newCountWriter(BitIoConstants.SIZE_16);
+
+    ObjIntConsumer<BitOutput> COUNT_WRITER_31 = newCountWriter(BitIoConstants.SIZE_31);
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Configures this writer to use specified consumer for writing the count of elements.
@@ -54,18 +79,5 @@ public interface CountWriter<T extends CountWriter<T>> {
         } catch (final ReflectiveOperationException roe) {
             throw new RuntimeException("failed to set 'countWriter", roe); // NOSONAR
         }
-    }
-
-    /**
-     * Configures this writer to use specified consumer for writing the count of elements, and returns this object.
-     *
-     * @param countWriter the consumer accepts an {@code output} and a {@code count}, and writes the {@code count} to
-     *                    the {@code output}.
-     * @return this object.
-     */
-    @SuppressWarnings({"unchecked"})
-    default T countWriter(final ObjIntConsumer<? super BitOutput> countWriter) {
-        setCountWriter(countWriter);
-        return (T) this;
     }
 }

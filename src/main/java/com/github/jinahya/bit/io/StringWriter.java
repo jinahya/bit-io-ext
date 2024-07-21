@@ -33,7 +33,9 @@ import java.util.function.ObjIntConsumer;
  */
 public class StringWriter
         extends FilterBitWriter<String, byte[]>
-        implements CountWriter<StringWriter> {
+        implements CountWriter {
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance for writing {@link StandardCharsets#US_ASCII}-encoded strings in a compressed-manner.
@@ -43,9 +45,11 @@ public class StringWriter
      * @return a new instance. a@see ByteArrayWriter#ascii31(boolean)
      */
     public static StringWriter compressedAscii(final boolean printableOnly) {
-        final ByteArrayWriter delegate = ByteArrayWriter.compressedAscii31(printableOnly);
+        final ByteArrayWriter delegate = ByteArrayWriter.compressedAscii(printableOnly);
         return new StringWriter(delegate, StandardCharsets.US_ASCII);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance for writing {@link StandardCharsets#UTF_8}-encoded strings in a compressed-manner.
@@ -56,6 +60,8 @@ public class StringWriter
         final ByteArrayWriter delegate = ByteArrayWriter.compressedUtf8();
         return new StringWriter(delegate, StandardCharsets.UTF_8);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance with specified arguments.
@@ -68,6 +74,7 @@ public class StringWriter
         this.charset = Objects.requireNonNull(charset, "charset is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     protected byte[] filter(final String value) {
         return value.getBytes(charset);
@@ -75,8 +82,9 @@ public class StringWriter
 
     @Override
     public void setCountWriter(final ObjIntConsumer<? super BitOutput> countWriter) {
-        ((CountWriter<?>) delegate).setCountWriter(countWriter);
+        ((CountWriter) delegate).setCountWriter(countWriter);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final Charset charset;
 }

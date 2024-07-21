@@ -23,7 +23,7 @@ package com.github.jinahya.bit.io;
 import java.io.IOException;
 
 /**
- * An interface for writing non-primitive values.
+ * An interface for writing values of a specific type.
  *
  * @param <T> value type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -36,7 +36,9 @@ public interface BitWriter<T> {
      * Returns a new instance handles {@code null} values.
      *
      * @return a new instance handles {@code null} values.
+     * @deprecated
      */
+    @Deprecated
     default BitWriter<T> nullable() {
         return FilterBitWriter.nullable(this);
     }

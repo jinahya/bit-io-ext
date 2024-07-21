@@ -32,6 +32,16 @@ import java.util.function.ToIntFunction;
  */
 public final class BitIoConstants {
 
+    // -----------------------------------------------------------------------------------------------------------------
+    static final int SIZE_8 = Byte.SIZE;
+
+    static final int SIZE_16 = Short.SIZE;
+
+    static final int SIZE_31 = Integer.SIZE - 1;
+
+    static final int SIZE_63 = Long.SIZE - 1;
+
+    // -----------------------------------------------------------------------------------------------------------------
     static final String MESSAGE_INPUT_IS_NULL = "input is null";
 
     static final String MESSAGE_OUTPUT_IS_NULL = "output is null";

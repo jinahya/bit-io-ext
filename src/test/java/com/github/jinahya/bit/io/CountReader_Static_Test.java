@@ -20,18 +20,6 @@ package com.github.jinahya.bit.io;
  * #L%
  */
 
-import org.junit.jupiter.api.Test;
+class CountReader_Static_Test {
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-class FilterBitWriter_Nullable_Test {
-
-    @Test
-    void nullable__() {
-        final BitWriter<String> nullable = FilterBitWriter.nullable(StringWriter.compressedAscii(true));
-        assertThat(nullable).isNotNull();
-        assertThatThrownBy(nullable::nullable).isInstanceOf(UnsupportedOperationException.class);
-        assertThatThrownBy(() -> FilterBitWriter.nullable(nullable)).isInstanceOf(IllegalArgumentException.class);
-    }
 }
