@@ -21,7 +21,6 @@ package com.github.jinahya.bit.io;
  */
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.aggregator.DefaultArgumentsAccessor;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedStatic;
@@ -49,9 +48,9 @@ class BitIo_Short_Test {
     private static Stream<Arguments> getRandomUnsignedSizeAndValueArgumentsStream() {
         return getRandomUnsignedAndSizeArgumentsStream()
                 .map(a -> {
-                    final var accessor = new DefaultArgumentsAccessor(a.get());
-                    final var unsigned = accessor.get(0, Boolean.class);
-                    final var size = accessor.get(1, Integer.class);
+                    final var got = a.get();
+                    final var unsigned = (Boolean) got[0];
+                    final var size = (Integer) got[1];
                     return Arguments.of(unsigned, size, BitIoRandom.nextValueForShort(unsigned, size));
                 });
     }

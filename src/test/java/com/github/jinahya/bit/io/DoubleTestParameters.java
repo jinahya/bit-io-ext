@@ -21,7 +21,6 @@ package com.github.jinahya.bit.io;
  */
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.params.aggregator.DefaultArgumentsAccessor;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -49,7 +48,7 @@ final class DoubleTestParameters {
         return Stream.concat(
                 IntStream.range(0, 16)
                         .mapToObj(i -> Arguments.of(BitIoRandom.nextExponentSizeForDouble(),
-                                                    BitIoRandom.nextSignificandSizeForDouble())),
+                                BitIoRandom.nextSignificandSizeForDouble())),
                 Stream.of(Arguments.of(FloatConstants.SIZE_EXPONENT, FloatConstants.SIZE_SIGNIFICAND))
         );
     }
@@ -57,9 +56,9 @@ final class DoubleTestParameters {
     static Stream<Arguments> getExponentSizeAndSignificandSizeArgumentsStream() {
         return sizesArgumentsStream()
                 .map(a -> {
-                    final var daa = new DefaultArgumentsAccessor(a.get());
-                    final var exponentSize = daa.getInteger(0);
-                    final var significandSize = daa.getInteger(1);
+                    final var got = a.get();
+                    final var exponentSize = (int) got[0];
+                    final var significandSize = (int) got[1];
                     final var value = BitIoRandom.nextValueForDouble(exponentSize, significandSize);
                     return Arguments.of(exponentSize, significandSize, value);
                 });
