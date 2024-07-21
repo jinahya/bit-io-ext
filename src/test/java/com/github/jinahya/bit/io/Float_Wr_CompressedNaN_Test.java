@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -52,7 +52,7 @@ class Float_Wr_CompressedNaN_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter.CompressedNaN(FloatConstants.SIZE_SIGNIFICAND).write(o, value);
             return i -> new FloatReader.CompressedNaN(FloatConstants.SIZE_SIGNIFICAND).read(i);
         });
@@ -62,7 +62,7 @@ class Float_Wr_CompressedNaN_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__Nullable(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter.CompressedNaN(FloatConstants.SIZE_SIGNIFICAND).nullable().write(o, value);
             return i -> new FloatReader.CompressedNaN(FloatConstants.SIZE_SIGNIFICAND).nullable().read(i);
         });
@@ -74,14 +74,14 @@ class Float_Wr_CompressedNaN_Test {
         log.debug("NaN: {}", FloatTestUtils.formatBinary(Float.NaN));
         final var significandSize = 1;
         {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new FloatWriter.CompressedNaN(significandSize).write(o, Float.NaN);
                 return i -> new FloatReader.CompressedNaN(significandSize).read(i);
             });
             assertThat(actual).isNaN();
         }
         {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new FloatWriter.CompressedNaN(significandSize).nullable().write(o, Float.NaN);
                 return i -> new FloatReader.CompressedNaN(significandSize).nullable()
                         .read(i);

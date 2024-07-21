@@ -16,4 +16,9 @@ enum Sign {
      * Constant for <em>signed</em> values.
      */
     SIGNED;
+
+    // -----------------------------------------------------------------------------------------------------------------
+    public static Sign valueOf(final boolean unsigned) {
+        return unsigned ? UNSIGNED : SIGNED;
+    }
 }

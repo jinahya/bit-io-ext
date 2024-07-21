@@ -24,13 +24,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr2u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_2_uncheckd;
 
 public class ReadmeTest {
 
     @Test
     void test1() throws IOException {
-        wr2u(o -> {
+        write_read_2_uncheckd(o -> {
             o.writeBoolean(true);       // 1 bit   1
             o.writeInt(true, 3, 1);     // 3 bits  4
             o.writeLong(false, 37, 0L); // 37 bits 41

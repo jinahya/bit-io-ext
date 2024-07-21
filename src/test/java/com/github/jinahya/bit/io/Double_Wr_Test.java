@@ -31,7 +31,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 
@@ -57,7 +57,7 @@ class Double_Wr_Test {
     void rw__(final int exponentSize, final int significandSize, final Double value) throws IOException {
         try (MockedStatic<DoubleConstraints> constraints
                      = Mockito.mockStatic(DoubleConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new DoubleWriter(exponentSize, significandSize).write(o, value);
                 return i -> new DoubleReader(exponentSize, significandSize).read(i);
             });
@@ -75,7 +75,7 @@ class Double_Wr_Test {
     @MethodSource({"sizesAndValuesArgumentsStream"})
     @ParameterizedTest(name = "[{index}] exponentSize: {0}, significandSize: {1}, value: {2}")
     void wr_Nullable(final int exponentSize, final int significandSize, final Double value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter(exponentSize, significandSize).nullable().write(o, value);
             return i -> new DoubleReader(exponentSize, significandSize).nullable().read(i);
         });
@@ -90,7 +90,7 @@ class Double_Wr_Test {
     @MethodSource({"sizesArgumentsStream"})
     @ParameterizedTest(name = "[{index}] exponentSize: {0}, significandSize: {1}, value: {2}")
     void wr_Null_Nullable(final int exponentSize, final int significandSize) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter(exponentSize, significandSize).nullable().write(o, null);
             return i -> new DoubleReader(exponentSize, significandSize).nullable().read(i);
         });

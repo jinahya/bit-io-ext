@@ -60,7 +60,7 @@ class BitIo_Short_Test {
     void wr__(final boolean unsigned, final int size, final short expected) throws IOException {
         try (MockedStatic<BitIoConstraints> constraints
                      = mockStatic(BitIoConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final var actual = BitIoTestUtils.wr1au(o -> {
+            final var actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 o.writeShort(unsigned, size, expected);
                 return (a, i) -> {
                     assertThat(a).hasSizeLessThanOrEqualTo(Short.SIZE);

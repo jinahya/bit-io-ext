@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -65,14 +65,14 @@ class Double_Wr_CompressedInfinity_Test {
     @ParameterizedTest
     void wr__Nullable(final Double value) throws IOException {
         {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 DoubleWriter.CompressedInfinity.getInstance().write(o, value);
                 return i -> DoubleReader.CompressedInfinity.getInstance().read(i);
             });
             validate(value, actual);
         }
         {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 DoubleWriter.CompressedInfinity.getInstance().nullable().write(o, value);
                 return i -> DoubleReader.CompressedInfinity.getInstance().nullable().read(i);
             });
@@ -82,7 +82,7 @@ class Double_Wr_CompressedInfinity_Test {
 
     @Test
     void wr_Null_Nullable() throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             DoubleWriter.CompressedInfinity.getInstance().nullable().write(o, null);
             return i -> DoubleReader.CompressedInfinity.getInstance().nullable().read(i);
         });

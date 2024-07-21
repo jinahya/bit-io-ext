@@ -200,7 +200,7 @@ class BitIoUtilsTest {
         @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 65535, 65536})
         @ParameterizedTest
         void _Written_(final int expected) throws IOException {
-            final int actual = BitIoTestUtils.wr1u(o -> {
+            final int actual = BitIoTestUtils.write_read_1_unchecked(o -> {
                 BitIoUtils.writeCountCompressed(o, expected);
                 return BitIoUtils::readCountCompressed;
             });
@@ -210,7 +210,7 @@ class BitIoUtilsTest {
         @DisplayName("writeCompressedCount(MAX_VALUE) -> readCompressedCount()MAX_VALUE")
         @Test
         void _MAX_MAX() throws IOException {
-            final int actual = BitIoTestUtils.wr1u(o -> {
+            final int actual = BitIoTestUtils.write_read_1_unchecked(o -> {
                 BitIoUtils.writeCountCompressed(o, Integer.MAX_VALUE);
                 return BitIoUtils::readCountCompressed;
             });
@@ -221,7 +221,7 @@ class BitIoUtilsTest {
         @Test
         void _6854() throws IOException {
             final int expected = 6854;
-            final int actual = BitIoTestUtils.wr1u(o -> {
+            final int actual = BitIoTestUtils.write_read_1_unchecked(o -> {
                 BitIoUtils.writeCountCompressed(o, expected);
                 return BitIoUtils::readCountCompressed;
             });
@@ -232,7 +232,7 @@ class BitIoUtilsTest {
         @RepeatedTest(8192)
         void test_Written_Random() throws IOException {
             final int expected = ThreadLocalRandom.current().nextInt() & Integer.MAX_VALUE;
-            final int actual = BitIoTestUtils.wr1u(o -> {
+            final int actual = BitIoTestUtils.write_read_1_unchecked(o -> {
                 BitIoUtils.writeCountCompressed(o, expected);
                 return BitIoUtils::readCountCompressed;
             });

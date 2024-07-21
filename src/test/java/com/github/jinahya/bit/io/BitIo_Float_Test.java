@@ -49,7 +49,7 @@ class BitIo_Float_Test {
     void wr__(final int exponentSize, final int significandSize, final float expected) throws IOException {
         try (MockedStatic<FloatConstraints> constraints
                      = Mockito.mockStatic(FloatConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final var actual = BitIoTestUtils.wr1au(o -> {
+            final var actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 o.writeFloat(exponentSize, significandSize, expected);
                 return (a, i) -> {
                     assertThat(a).hasSizeLessThanOrEqualTo(Float.BYTES);

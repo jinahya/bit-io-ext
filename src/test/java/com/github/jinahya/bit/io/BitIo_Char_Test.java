@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 import static com.github.jinahya.bit.io.BitIoConstraints.requireValidSizeForChar;
 import static com.github.jinahya.bit.io.BitIoRandom.nextValueForChar;
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1au;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_array_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -51,7 +51,7 @@ class BitIo_Char_Test {
     void wr__(final int size, final char expected) throws IOException {
         try (MockedStatic<BitIoConstraints> constraints
                      = mockStatic(BitIoConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final char actual = wr1au(o -> {
+            final char actual = write_read_1_array_unchecked(o -> {
                 o.writeChar(size, expected);
                 return (a, i) -> {
                     assertThat(a).hasSizeLessThanOrEqualTo(Character.BYTES);
@@ -66,7 +66,7 @@ class BitIo_Char_Test {
     @Test
     void wr__SIZE() throws IOException {
         final var expected = nextValueForChar(Character.SIZE);
-        final var actual = wr1au(o -> {
+        final var actual = write_read_1_array_unchecked(o -> {
             o.writeChar(Character.SIZE, expected);
             return (a, i) -> {
                 assertThat(a).hasSizeLessThanOrEqualTo(Character.BYTES);

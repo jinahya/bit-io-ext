@@ -37,6 +37,7 @@ import java.util.Objects;
 public abstract class Leb128Writer // NOSONAR
         implements LongWriter {
 
+    // -----------------------------------------------------------------------------------------------------------------
     /**
      * A writer for writing values using <a href="https://en.wikipedia.org/wiki/LEB128#Unsigned_LEB128">Unsigned
      * LEB128</a>.
@@ -87,6 +88,7 @@ public abstract class Leb128Writer // NOSONAR
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     /**
      * A writer for writing values using <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">Signed
      * LEB128</a>.
@@ -135,6 +137,7 @@ public abstract class Leb128Writer // NOSONAR
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     /**
      * Returns the instance of {@link OfUnsigned} class.
      *
@@ -153,6 +156,7 @@ public abstract class Leb128Writer // NOSONAR
         return OfSigned.getInstance();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     /**
      * Creates a new instance.
      */

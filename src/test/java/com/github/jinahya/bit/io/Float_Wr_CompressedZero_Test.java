@@ -30,7 +30,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -84,7 +84,7 @@ class Float_Wr_CompressedZero_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void rw__(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedZero.getInstance().write(o, value);
             return i -> FloatReader.CompressedZero.getInstance().read(i);
         });
@@ -94,7 +94,7 @@ class Float_Wr_CompressedZero_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__getInstanceNullable(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedZero.getInstanceNullable().write(o, value);
             return i -> FloatReader.CompressedZero.getInstanceNullable().read(i);
         });
@@ -103,7 +103,7 @@ class Float_Wr_CompressedZero_Test {
 
     @Test
     void wr_Null_getInstanceNullable() throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedZero.getInstanceNullable().write(o, null);
             return i -> FloatReader.CompressedZero.getInstanceNullable().read(i);
         });

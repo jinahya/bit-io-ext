@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 
 /**
  * A class for testing {@link FloatWriter.CompressedInfinity} and {@link FloatReader.CompressedInfinity}.
@@ -50,7 +50,7 @@ class Float_Wr_CompressedSubnormal_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter.CompressedSubnormal(FloatConstants.SIZE_SIGNIFICAND).write(o, value);
             return i -> new FloatReader.CompressedSubnormal(FloatConstants.SIZE_SIGNIFICAND).read(i);
         });
@@ -60,7 +60,7 @@ class Float_Wr_CompressedSubnormal_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__Nullable(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter.CompressedSubnormal(FloatConstants.SIZE_SIGNIFICAND).nullable().write(o, value);
             return i -> new FloatReader.CompressedSubnormal(FloatConstants.SIZE_SIGNIFICAND).nullable().read(i);
         });

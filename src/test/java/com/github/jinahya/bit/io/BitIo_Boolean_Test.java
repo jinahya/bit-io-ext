@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BitIo_Boolean_Test {
@@ -33,7 +33,7 @@ class BitIo_Boolean_Test {
     @ValueSource(booleans = {true, false})
     @ParameterizedTest
     void test__(final boolean expected) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             o.writeBoolean(expected);
             return BitInput::readBoolean;
         });

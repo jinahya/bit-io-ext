@@ -42,7 +42,7 @@ class Vlq_Wr_Test {
 
         @Test
         void __int() throws IOException {
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeInt(o, 0);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0x00);
@@ -54,7 +54,7 @@ class Vlq_Wr_Test {
 
         @Test
         void __long() throws IOException {
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeLong(o, 0L);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0x00);
@@ -72,7 +72,7 @@ class Vlq_Wr_Test {
         @Test
         void vlq__106903() throws IOException {
             final int expected = 106903;
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeInt(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(134, 195, 23);
@@ -85,7 +85,7 @@ class Vlq_Wr_Test {
         @Test
         void vlqLong__106903() throws IOException {
             final long expected = 106903L;
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeLong(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(134, 195, 23);
@@ -110,7 +110,7 @@ class Vlq_Wr_Test {
         @MethodSource({"_ints"})
         @ParameterizedTest
         void __int(final int expected) throws IOException {
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeInt(o, expected);
                 return (a, i) -> VlqReader.getInstance().readInt(i);
             });
@@ -120,7 +120,7 @@ class Vlq_Wr_Test {
         @MethodSource({"_longs"})
         @ParameterizedTest
         void __long(final long expected) throws IOException {
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeLong(o, expected);
                 return (a, i) -> VlqReader.getInstance().readLong(i);
             });
@@ -149,7 +149,7 @@ class Vlq_Wr_Test {
         @MethodSource({"testVector"})
         @ParameterizedTest
         void wr__TestVector(final int expected, final int[] bytes) throws IOException {
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeInt(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(bytes);
@@ -162,7 +162,7 @@ class Vlq_Wr_Test {
         @MethodSource({"testVector"})
         @ParameterizedTest
         void wr__TestVectorL(final long expected, final int[] bytes) throws IOException {
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 VlqWriter.getInstance().writeLong(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(bytes);

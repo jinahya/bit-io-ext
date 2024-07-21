@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -65,7 +65,7 @@ class Float_Wr_CompressedInfinity_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedInfinity.getInstance().write(o, value);
             return i -> FloatReader.CompressedInfinity.getInstance().read(i);
         });
@@ -76,7 +76,7 @@ class Float_Wr_CompressedInfinity_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr_NonNull_Nullable(final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedInfinity.getInstanceNullable().write(o, value);
             return i -> FloatReader.CompressedInfinity.getInstanceNullable().read(i);
         });
@@ -86,7 +86,7 @@ class Float_Wr_CompressedInfinity_Test {
     @DisplayName("nullable().write(null) -> nullable().read()null")
     @Test
     void wr_Null_Nullable() throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             FloatWriter.CompressedInfinity.getInstanceNullable().write(o, null);
             return i -> FloatReader.CompressedInfinity.getInstanceNullable().read(i);
         });

@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 import static com.github.jinahya.bit.io.BitIoConstants.COUNT_READER;
 import static com.github.jinahya.bit.io.BitIoConstants.COUNT_WRITER;
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -51,7 +51,7 @@ class String_Wr_CompressedAscii_PrintableOnly_Test {
     @MethodSource({"randomValueStream"})
     @ParameterizedTest
     void test(final String expected) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             final var writer = StringWriter.compressedAscii(true);
             o.writeObject(writer, expected);
             return i -> {
@@ -65,7 +65,7 @@ class String_Wr_CompressedAscii_PrintableOnly_Test {
     @MethodSource({"randomValueStreamWithNull"})
     @ParameterizedTest
     void nullable(final String expected) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             StringWriter.compressedAscii(true).nullable().write(o, expected);
             return StringReader.compressedAscii(true).nullable()::read;
         });
@@ -79,7 +79,7 @@ class String_Wr_CompressedAscii_PrintableOnly_Test {
     @MethodSource({"randomValueStream"})
     @ParameterizedTest
     void wr__UncompressedCount(final String expected) throws IOException {
-        final String actual = BitIoTestUtils.wr1u(o -> {
+        final String actual = BitIoTestUtils.write_read_1_unchecked(o -> {
             final var writer = StringWriter.compressedAscii(PRINTABLE_ONLY);
             writer.setCountWriter(COUNT_WRITER);
             writer.write(o, expected);

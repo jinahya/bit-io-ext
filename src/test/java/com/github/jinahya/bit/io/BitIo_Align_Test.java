@@ -24,7 +24,7 @@ import org.junit.jupiter.api.RepeatedTest;
 
 import java.io.IOException;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr2u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_2_uncheckd;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +32,7 @@ class BitIo_Align_Test {
 
     @RepeatedTest(16)
     void align__() throws IOException {
-        wr2u(o -> {
+        write_read_2_uncheckd(o -> {
             final var skip = current().nextBoolean();
             final var bits = current().nextInt(1, 128);
             if (skip) {

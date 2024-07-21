@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -50,7 +50,7 @@ class Double_Wr_CompressedNaN_SignificandOnly_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__(final Double value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter.CompressedNaN(DoubleConstants.SIZE_SIGNIFICAND)
                     .significandOnly()
                     .write(o, value);
@@ -64,7 +64,7 @@ class Double_Wr_CompressedNaN_SignificandOnly_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__Nullable(final Double value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter.CompressedNaN(DoubleConstants.SIZE_SIGNIFICAND)
                     .significandOnly()
                     .nullable()

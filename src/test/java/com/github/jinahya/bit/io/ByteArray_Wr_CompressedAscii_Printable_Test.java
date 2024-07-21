@@ -111,7 +111,7 @@ class ByteArray_Wr_CompressedAscii_Printable_Test {
     @MethodSource({"randomValueStream"})
     @ParameterizedTest
     void wr__UncompressedCount(final byte[] expected) throws IOException {
-        final byte[] actual = BitIoTestUtils.wr1u(o -> {
+        final byte[] actual = BitIoTestUtils.write_read_1_unchecked(o -> {
             final var writer = ByteArrayWriter.compressedAscii(PRINTABLE_ONLY);
             writer.setCountWriter(COUNT_WRITER);
             writer.write(o, expected);

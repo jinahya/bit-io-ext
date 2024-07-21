@@ -34,7 +34,7 @@ import java.util.function.Function;
 
 public final class BitIoTestUtils {
 
-    static <R> R w1(final Function<? super BitOutput, Function<? super byte[], ? extends R>> f1)
+    static <R> R write_1(final Function<? super BitOutput, Function<? super byte[], ? extends R>> f1)
             throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -47,20 +47,22 @@ public final class BitIoTestUtils {
         return f2.apply(bytes);
     }
 
-    static <R> R w1u(final CheckedFunction1<? super BitOutput, CheckedFunction1<? super byte[], ? extends R>> f1)
+    static <R> R write_1_unchecked(
+            final CheckedFunction1<? super BitOutput,
+                    CheckedFunction1<? super byte[], ? extends R>> f1)
             throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
-        return w1(o -> {
+        return write_1(o -> {
             final CheckedFunction1<? super byte[], ? extends R> f2 = f1.unchecked().apply(o);
             assert f2 != null : "f2 is null";
             return b -> f2.unchecked().apply(b);
         });
     }
 
-    static <R> R wr1(final Function<? super BitOutput, ? extends Function<? super BitInput, ? extends R>> f1)
+    static <R> R write_read_1(final Function<? super BitOutput, ? extends Function<? super BitInput, ? extends R>> f1)
             throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
-        return w1(o -> {
+        return write_1(o -> {
             final Function<? super BitInput, ? extends R> f2 = f1.apply(o);
             assert f2 != null : "f2 is null";
             return a -> {
@@ -77,17 +79,17 @@ public final class BitIoTestUtils {
         });
     }
 
-    public static <R> R wr1u(
+    public static <R> R write_read_1_unchecked(
             final CheckedFunction1<? super BitOutput, ? extends CheckedFunction1<? super BitInput, ? extends R>> f1)
             throws IOException {
-        return wr1(o -> f1.unchecked().apply(o).unchecked());
+        return write_read_1(o -> f1.unchecked().apply(o).unchecked());
     }
 
-    static <R> R wr1a(
+    static <R> R write_read_1_array(
             final Function<? super BitOutput, ? extends BiFunction<? super byte[], ? super BitInput, ? extends R>> f1)
             throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
-        return w1(o -> {
+        return write_1(o -> {
             final BiFunction<? super byte[], ? super BitInput, ? extends R> f2 = f1.apply(o);
             assert f2 != null : "f2 is null";
             return a -> {
@@ -104,15 +106,17 @@ public final class BitIoTestUtils {
         });
     }
 
-    public static <R> R wr1au(
-            final CheckedFunction1<? super BitOutput, ? extends CheckedFunction2<byte[], ? super BitInput, ? extends R>> f1)
+    public static <R> R write_read_1_array_unchecked(
+            final CheckedFunction1<? super BitOutput,
+                    ? extends CheckedFunction2<byte[], ? super BitInput, ? extends R>> f1)
             throws IOException {
-        return wr1a(o -> f1.unchecked().apply(o).unchecked());
+        return write_read_1_array(o -> f1.unchecked().apply(o).unchecked());
     }
 
-    static void w2(final Function<? super BitOutput, Consumer<? super byte[]>> f1) throws IOException {
+    // -----------------------------------------------------------------------------------------------------------------
+    static void write_2(final Function<? super BitOutput, Consumer<? super byte[]>> f1) throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
-        w1(o -> {
+        write_1(o -> {
             final var consumer = f1.apply(o);
             return i -> {
                 consumer.accept(i);
@@ -121,10 +125,10 @@ public final class BitIoTestUtils {
         });
     }
 
-    static void wr2(final Function<? super BitOutput, ? extends Consumer<? super BitInput>> f1)
+    static void write_read_2(final Function<? super BitOutput, ? extends Consumer<? super BitInput>> f1)
             throws IOException {
         Objects.requireNonNull(f1, "f1 is null");
-        wr1(o -> {
+        write_read_1(o -> {
             final var consumer = f1.apply(o);
             return i -> {
                 consumer.accept(i);
@@ -133,11 +137,11 @@ public final class BitIoTestUtils {
         });
     }
 
-    static void wr2u(
+    static void write_read_2_uncheckd(
             final CheckedFunction1<? super BitOutput, ? extends CheckedConsumer<? super BitInput>> function)
             throws IOException {
         Objects.requireNonNull(function, "function is null");
-        wr1u(o -> {
+        write_read_1_unchecked(o -> {
             final var consumer = function.apply(o);
             return i -> {
                 consumer.accept(i);
@@ -146,6 +150,7 @@ public final class BitIoTestUtils {
         });
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     static String format(final float value) {
         final String string = String.format("%32s", Integer.toBinaryString(Float.floatToRawIntBits(value)));
         return string.substring(0, 1) + ' ' + string.substring(1, 9) + ' ' + string.substring(9);

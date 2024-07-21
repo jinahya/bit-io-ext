@@ -30,7 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -54,7 +54,7 @@ class Double_Wr_CompressedSubnormal_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void wr__(final Double value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter.CompressedSubnormal(DoubleConstants.SIZE_SIGNIFICAND).write(o, value);
             return i -> new DoubleReader.CompressedSubnormal(DoubleConstants.SIZE_SIGNIFICAND).read(i);
         });
@@ -69,7 +69,7 @@ class Double_Wr_CompressedSubnormal_Test {
                 DoubleConstants.SIZE_SIGNIFICAND - Long.numberOfTrailingZeros(significandBits),
                 DoubleConstants.SIZE_MIN_SIGNIFICAND
         );
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new DoubleWriter.CompressedSubnormal(significandSize).write(o, value);
             return i -> new DoubleReader.CompressedSubnormal(significandSize).read(i);
         });
@@ -86,7 +86,7 @@ class Double_Wr_CompressedSubnormal_Test {
         @MethodSource({"valueStream_"})
         @ParameterizedTest
         void wr__(final Double value) throws IOException {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new DoubleWriter.CompressedSubnormal(DoubleConstants.SIZE_SIGNIFICAND).nullable().write(o, value);
                 return i -> new DoubleReader.CompressedSubnormal(DoubleConstants.SIZE_SIGNIFICAND).nullable().read(i);
             });
@@ -101,7 +101,7 @@ class Double_Wr_CompressedSubnormal_Test {
                     DoubleConstants.SIZE_SIGNIFICAND - Long.numberOfTrailingZeros(significandBits),
                     DoubleConstants.SIZE_MIN_SIGNIFICAND
             );
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new DoubleWriter.CompressedSubnormal(significandSize).nullable().write(o, value);
                 return i -> new DoubleReader.CompressedSubnormal(significandSize).nullable().read(i);
             });
@@ -112,7 +112,7 @@ class Double_Wr_CompressedSubnormal_Test {
         @Test
         void wr_Null_Nullable() throws IOException {
             final int significand = DoubleConstants.SIZE_SIGNIFICAND;
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new DoubleWriter.CompressedSubnormal(significand).nullable().write(o, null);
                 return i -> new DoubleReader.CompressedSubnormal(significand).nullable().read(i);
             });

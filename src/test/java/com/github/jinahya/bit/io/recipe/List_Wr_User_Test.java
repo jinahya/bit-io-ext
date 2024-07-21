@@ -52,7 +52,7 @@ class List_Wr_User_Test {
     @MethodSource({"randomValueStream"})
     @ParameterizedTest
     void wr__(final List<User> expected) throws IOException {
-        final var actual = BitIoTestUtils.wr1au(o -> {
+        final var actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
             new ListWriter<>(new UserWriter()).write(o, expected);
             return (a, i) -> {
                 log.debug("a.length: {}", a.length);

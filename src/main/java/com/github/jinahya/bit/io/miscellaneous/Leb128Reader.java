@@ -37,6 +37,8 @@ import java.util.Objects;
 public abstract class Leb128Reader // NOSONAR
         implements LongReader {
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * A reader for reading values using <a href="https://en.wikipedia.org/wiki/LEB128#Unsigned_LEB128">Unsigned
      * LEB128</a>.
@@ -83,6 +85,8 @@ public abstract class Leb128Reader // NOSONAR
             return value;
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * A writer for writing values using <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">Signed
@@ -135,6 +139,8 @@ public abstract class Leb128Reader // NOSONAR
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Returns the instance of {@link OfUnsigned} class.
      *
@@ -152,6 +158,8 @@ public abstract class Leb128Reader // NOSONAR
     public static Leb128Reader getInstanceSigned() {
         return OfSigned.getInstance();
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance.

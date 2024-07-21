@@ -42,7 +42,7 @@ class Leb128_Wr_Unsigned_Test {
 
         @Test
         void __int() throws IOException {
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeInt(o, 0);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0x00);
@@ -54,7 +54,7 @@ class Leb128_Wr_Unsigned_Test {
 
         @Test
         void __long() throws IOException {
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeLong(o, 0L);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0x00);
@@ -72,7 +72,7 @@ class Leb128_Wr_Unsigned_Test {
         @Test
         void __int() throws IOException {
             final int expected = 624485;
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeInt(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0xE5, 0x8E, 0x26);
@@ -85,7 +85,7 @@ class Leb128_Wr_Unsigned_Test {
         @Test
         void __long() throws IOException {
             final long expected = 624485L;
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeLong(o, expected);
                 return (a, i) -> {
                     assertThat(a).containsExactly(0xE5, 0x8E, 0x26);
@@ -110,7 +110,7 @@ class Leb128_Wr_Unsigned_Test {
         @MethodSource({"_ints"})
         @ParameterizedTest
         void __int(final int expected) throws IOException {
-            final int actual = BitIoTestUtils.wr1au(o -> {
+            final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeInt(o, expected);
                 return (a, i) -> {
 //                    log.debug("{} -> {}", String.format("%10d", expected), HexFormat.ofDelimiter(" ").formatHex(a));
@@ -123,7 +123,7 @@ class Leb128_Wr_Unsigned_Test {
         @MethodSource({"_longs"})
         @ParameterizedTest
         void __long(final long expected) throws IOException {
-            final long actual = BitIoTestUtils.wr1au(o -> {
+            final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeLong(o, expected);
                 return (a, i) -> {
 //                    log.debug("{} -> {}", String.format("%19d", expected), HexFormat.ofDelimiter(" ").formatHex(a));

@@ -20,16 +20,10 @@ package com.github.jinahya.bit.io;
  * #L%
  */
 
-import io.vavr.CheckedConsumer;
 import io.vavr.CheckedFunction1;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.LongFunction;
 import java.util.stream.IntStream;
@@ -420,91 +414,6 @@ public final class BitIoRandom {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    static <R> R w1(final Function<? super BitOutput, Function<? super byte[], ? extends R>> f1)
-            throws IOException {
-        Objects.requireNonNull(f1, "f1 is null");
-        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        final BitOutput output = BitOutputFactory.from(stream);
-        final Function<? super byte[], ? extends R> f2 = f1.apply(output);
-        final long padded = output.align(1);
-        assert padded >= 0L;
-        final byte[] bytes = stream.toByteArray();
-        assert f2 != null : "f2 is null";
-        return f2.apply(bytes);
-    }
-
-    static <R> R w1u(final CheckedFunction1<? super BitOutput, CheckedFunction1<? super byte[], ? extends R>> f1)
-            throws IOException {
-        Objects.requireNonNull(f1, "f1 is null");
-        return w1(o -> {
-            final CheckedFunction1<? super byte[], ? extends R> f2 = f1.unchecked().apply(o);
-            assert f2 != null : "f2 is null";
-            return b -> f2.unchecked().apply(b);
-        });
-    }
-
-    static <R> R wr1(final Function<? super BitOutput, ? extends Function<? super BitInput, ? extends R>> f1)
-            throws IOException {
-        Objects.requireNonNull(f1, "f1 is null");
-        return w1(o -> {
-            final Function<? super BitInput, ? extends R> f2 = f1.apply(o);
-            assert f2 != null : "f2 is null";
-            return a -> {
-                final BitInput input = BitInputFactory.from(new ByteArrayInputStream(a));
-                final R result = f2.apply(input);
-                try {
-                    final long discarded = input.align(1);
-                    assert discarded >= 0L;
-                    return result;
-                } catch (final IOException ioe) {
-                    throw new RuntimeException(ioe);
-                }
-            };
-        });
-    }
-
-    static <R> R wr1u(
-            final CheckedFunction1<? super BitOutput, ? extends CheckedFunction1<? super BitInput, ? extends R>> f1)
-            throws IOException {
-        return wr1(o -> f1.unchecked().apply(o).unchecked());
-    }
-
-    static void w2(final Function<? super BitOutput, Consumer<? super byte[]>> f1) throws IOException {
-        Objects.requireNonNull(f1, "f1 is null");
-        w1(o -> {
-            final var consumer = f1.apply(o);
-            return i -> {
-                consumer.accept(i);
-                return null;
-            };
-        });
-    }
-
-    static void wr2(final Function<? super BitOutput, ? extends Consumer<? super BitInput>> f1)
-            throws IOException {
-        Objects.requireNonNull(f1, "f1 is null");
-        wr1(o -> {
-            final var consumer = f1.apply(o);
-            return i -> {
-                consumer.accept(i);
-                return null;
-            };
-        });
-    }
-
-    static void wr2u(
-            final CheckedFunction1<? super BitOutput, ? extends CheckedConsumer<? super BitInput>> function)
-            throws IOException {
-        Objects.requireNonNull(function, "function is null");
-        wr1u(o -> {
-            final var consumer = function.apply(o);
-            return i -> {
-                consumer.accept(i);
-                return null;
-            };
-        });
-    }
-
     public static int nextUnsignedInt() {
         return ThreadLocalRandom.current().nextInt() & Integer.MAX_VALUE;
     }
@@ -561,6 +470,7 @@ public final class BitIoRandom {
         return nextSignedLongArray(ThreadLocalRandom.current().nextInt(1, 128));
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private BitIoRandom() {
         throw new AssertionError(BitIoConstants.MESSAGE_INSTANTIATION_IS_NOT_ALLOWED);
     }

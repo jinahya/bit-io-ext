@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr2u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_2_uncheckd;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 class BitIo_Skip_Test {
@@ -32,7 +32,7 @@ class BitIo_Skip_Test {
     @Test
     void skip__() throws IOException {
         final var expected = current().nextInt(1, 1024);
-        wr2u(o -> {
+        write_read_2_uncheckd(o -> {
             o.skip(expected);
             return i -> i.skip(expected);
         });

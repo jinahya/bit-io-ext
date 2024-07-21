@@ -31,7 +31,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static com.github.jinahya.bit.io.FloatConstants.SIZE_EXPONENT;
 import static com.github.jinahya.bit.io.FloatConstants.SIZE_SIGNIFICAND;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,7 +63,7 @@ class Float_Wr_Test {
     void wr__(final Float value) throws IOException {
         try (MockedStatic<FloatConstraints> floatConstraints
                      = Mockito.mockStatic(FloatConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 new FloatWriter(SIZE_EXPONENT, SIZE_SIGNIFICAND).write(o, value);
                 return i -> new FloatReader(SIZE_EXPONENT, SIZE_SIGNIFICAND).read(i);
             });
@@ -83,7 +83,7 @@ class Float_Wr_Test {
     @MethodSource({"sizesAndValuesArgumentsStream"})
     @ParameterizedTest
     void wr__(final int exponentSize, final int significandSize, final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter(exponentSize, significandSize).write(o, value);
             return i -> new FloatReader(exponentSize, significandSize).read(i);
         });
@@ -98,7 +98,7 @@ class Float_Wr_Test {
     @MethodSource({"sizesAndValuesArgumentsStream"})
     @ParameterizedTest
     void wr__Nullable(final int exponentSize, final int significandSize, final Float value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter(exponentSize, significandSize).nullable().write(o, value);
             return i -> new FloatReader(exponentSize, significandSize).nullable().read(i);
         });
@@ -113,7 +113,7 @@ class Float_Wr_Test {
     @MethodSource({"sizesArgumentsStream"})
     @ParameterizedTest
     void wr_Null_Nullable(final int exponentSize, final int significandSize) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             new FloatWriter(exponentSize, significandSize).nullable().write(o, null);
             return i -> new FloatReader(exponentSize, significandSize).nullable().read(i);
         });

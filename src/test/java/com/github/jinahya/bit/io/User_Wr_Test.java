@@ -30,7 +30,7 @@ class User_Wr_Test {
 
     @RepeatedTest(1)
     void wr__single() throws IOException {
-        BitIoTestUtils.wr1u(o -> {
+        BitIoTestUtils.write_read_1_unchecked(o -> {
             final var expected = User.newRandomInstance();
             new UserWriter().write(o, expected);
             return i -> {

@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static com.github.jinahya.bit.io.BitIoTestUtils.wr1u;
+import static com.github.jinahya.bit.io.BitIoTestUtils.write_read_1_unchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -85,7 +85,7 @@ class Double_Wr_CompressedZero_Test {
     @MethodSource({"valueStream"})
     @ParameterizedTest
     void rw__(final Double value) throws IOException {
-        final var actual = wr1u(o -> {
+        final var actual = write_read_1_unchecked(o -> {
             DoubleWriter.CompressedZero.getInstance().write(o, value);
             return i -> DoubleReader.CompressedZero.getInstance().read(i);
         });
@@ -102,7 +102,7 @@ class Double_Wr_CompressedZero_Test {
         @MethodSource({"valueStream_"})
         @ParameterizedTest
         void wr__(final Double value) throws IOException {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 DoubleWriter.CompressedZero.getInstanceNullable().write(o, value);
                 return i -> DoubleReader.CompressedZero.getInstanceNullable().read(i);
             });
@@ -111,7 +111,7 @@ class Double_Wr_CompressedZero_Test {
 
         @Test
         void wr_Null_Null() throws IOException {
-            final var actual = wr1u(o -> {
+            final var actual = write_read_1_unchecked(o -> {
                 DoubleWriter.CompressedZero.getInstanceNullable().write(o, null);
                 return i -> DoubleReader.CompressedZero.getInstanceNullable().read(i);
             });

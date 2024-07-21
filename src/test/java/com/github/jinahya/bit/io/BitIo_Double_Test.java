@@ -48,7 +48,7 @@ class BitIo_Double_Test {
     void wr__(final int exponentSize, final int significandSize, final double expected) throws IOException {
         try (MockedStatic<DoubleConstraints> doubleConstraints
                      = mockStatic(DoubleConstraints.class, Mockito.CALLS_REAL_METHODS)) {
-            final var actual = BitIoTestUtils.wr1au(o -> {
+            final var actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 o.writeDouble(exponentSize, significandSize, expected);
                 return (a, i) -> {
                     assertThat(a).hasSizeLessThanOrEqualTo(Double.BYTES);
