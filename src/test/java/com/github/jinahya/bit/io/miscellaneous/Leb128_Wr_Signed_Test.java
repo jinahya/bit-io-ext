@@ -139,10 +139,7 @@ class Leb128_Wr_Signed_Test {
         void __int(final int expected) throws IOException {
             final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceSigned().writeInt(o, expected);
-                return (a, i) -> {
-//                    log.debug("{} -> {}", String.format("%11d", expected), HexFormat.ofDelimiter(" ").formatHex(a));
-                    return Leb128Reader.getInstanceSigned().readInt(i);
-                };
+                return (a, i) -> Leb128Reader.getInstanceSigned().readInt(i);
             });
             assertThat(actual).isEqualTo(expected);
         }
@@ -152,10 +149,7 @@ class Leb128_Wr_Signed_Test {
         void __long(final long expected) throws IOException {
             final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceSigned().writeLong(o, expected);
-                return (a, i) -> {
-//                    log.debug("{} -> {}", String.format("%20d", expected), HexFormat.ofDelimiter(" ").formatHex(a));
-                    return Leb128Reader.getInstanceSigned().readLong(i);
-                };
+                return (a, i) -> Leb128Reader.getInstanceSigned().readLong(i);
             });
             assertThat(actual).isEqualTo(expected);
         }

@@ -30,6 +30,7 @@ import java.util.Objects;
  * A reader for reading values using <a href="https://en.wikipedia.org/wiki/LEB128">LEB128</a>.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see Leb128Writer
  */
 @SuppressWarnings({
         "java:S1610" // empty abstract class
@@ -40,8 +41,7 @@ public abstract class Leb128Reader // NOSONAR
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A reader for reading values using <a href="https://en.wikipedia.org/wiki/LEB128#Unsigned_LEB128">Unsigned
-     * LEB128</a>.
+     * A reader for reading <a href="https://en.wikipedia.org/wiki/LEB128#Unsigned_LEB128">unsigned LEB128</a> values.
      */
     public static class OfUnsigned
             extends Leb128Reader {
@@ -89,8 +89,7 @@ public abstract class Leb128Reader // NOSONAR
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A writer for writing values using <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">Signed
-     * LEB128</a>.
+     * A writer for writing <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">signed LEB128</a> values.
      */
     public static class OfSigned
             extends Leb128Reader {

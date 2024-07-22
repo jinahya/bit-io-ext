@@ -113,7 +113,6 @@ class Leb128_Wr_Unsigned_Test {
             final int actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeInt(o, expected);
                 return (a, i) -> {
-//                    log.debug("{} -> {}", String.format("%10d", expected), HexFormat.ofDelimiter(" ").formatHex(a));
                     return Leb128Reader.getInstanceUnsigned().readInt(i);
                 };
             });
@@ -126,7 +125,6 @@ class Leb128_Wr_Unsigned_Test {
             final long actual = BitIoTestUtils.write_read_1_array_unchecked(o -> {
                 Leb128Writer.getInstanceUnsigned().writeLong(o, expected);
                 return (a, i) -> {
-//                    log.debug("{} -> {}", String.format("%19d", expected), HexFormat.ofDelimiter(" ").formatHex(a));
                     return Leb128Reader.getInstanceUnsigned().readLong(i);
                 };
             });

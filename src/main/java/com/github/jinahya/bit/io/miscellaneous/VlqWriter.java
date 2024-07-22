@@ -27,13 +27,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A writer for writing VLQ-encoded values.
+ * A writer for writing <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">VLQ</a>-decoded values.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">Variable-length quantity</a>
  */
 public class VlqWriter
         implements LongWriter {
 
+    // -----------------------------------------------------------------------------------------------------------------
     private static final class InstanceHolder {
 
         private static final VlqWriter INSTANCE = new VlqWriter();
@@ -52,6 +54,8 @@ public class VlqWriter
         return InstanceHolder.INSTANCE;
     }
 
+    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+
     /**
      * Creates a new instance.
      */
@@ -59,6 +63,7 @@ public class VlqWriter
         super();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public void writeLong(final BitOutput output, long value) throws IOException {
         Objects.requireNonNull(output, "output is null");

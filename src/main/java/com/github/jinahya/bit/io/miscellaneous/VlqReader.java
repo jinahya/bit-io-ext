@@ -27,13 +27,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A reader for reading VLQ-encoded values.
+ * A reader for reading <a href="Variable-length quantity">VLQ</a>-encoded values.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">Variable-length quantity</a>
  */
 public class VlqReader
         implements LongReader {
 
+    // -----------------------------------------------------------------------------------------------------------------
     private static final class InstanceHolder {
 
         private static final VlqReader INSTANCE = new VlqReader();
@@ -44,13 +46,15 @@ public class VlqReader
     }
 
     /**
-     * Returns the instance of this writer. The {@code VlqReader} is singleton.
+     * Returns the instance of this reader. The {@code VlqReader} is singleton.
      *
-     * @return the instance of this writer.
+     * @return the instance of this reader.
      */
     public static VlqReader getInstance() {
         return InstanceHolder.INSTANCE;
     }
+
+    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -59,6 +63,7 @@ public class VlqReader
         super();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public long readLong(final BitInput input) throws IOException {
         Objects.requireNonNull(input, "input is null");
