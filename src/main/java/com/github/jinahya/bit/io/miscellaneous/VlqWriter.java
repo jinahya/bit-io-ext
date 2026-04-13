@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A writer for writing <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">VLQ</a>-decoded values.
+ * A writer for writing <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">VLQ</a>-encoded values.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a href="https://en.wikipedia.org/wiki/Variable-length_quantity">Variable-length quantity</a>

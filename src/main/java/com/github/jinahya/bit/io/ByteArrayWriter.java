@@ -37,7 +37,7 @@ public class ByteArrayWriter
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * .
+     * A writer for writing arrays of unsigned bytes.
      *
      * @see ByteArrayReader.Unsigned
      */
@@ -74,7 +74,7 @@ public class ByteArrayWriter
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * .
+     * A writer for writing arrays of ASCII bytes in a compressed manner.
      *
      * @see ByteArrayReader.CompressedAscii
      */
@@ -82,7 +82,7 @@ public class ByteArrayWriter
             extends Unsigned {
 
         /**
-         * .
+         * A writer for writing arrays of printable ASCII bytes in a compressed manner.
          *
          * @see ByteArrayReader.CompressedAscii.PrintableOnly
          */
@@ -189,7 +189,7 @@ public class ByteArrayWriter
     }
 
     /**
-     * Creates a new instance writes UTF-8 byte arrays in a compressed mannager.
+     * Creates a new instance that writes UTF-8 byte arrays in a compressed manner.
      *
      * @return a new instance.
      * @see ByteArrayReader#compressedUtf8()

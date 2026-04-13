@@ -42,7 +42,8 @@ public class StringWriter
      *
      * @param printableOnly a flag for printable characters only; {@code true} for printable characters; {@code false}
      *                      otherwise.
-     * @return a new instance. a@see ByteArrayWriter#ascii31(boolean)
+     * @return a new instance.
+     * @see ByteArrayWriter#compressedAscii(boolean)
      */
     public static StringWriter compressedAscii(final boolean printableOnly) {
         final ByteArrayWriter delegate = ByteArrayWriter.compressedAscii(printableOnly);

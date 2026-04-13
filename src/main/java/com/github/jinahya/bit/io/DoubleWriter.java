@@ -297,8 +297,8 @@ public class DoubleWriter
         /**
          * Replaces current value of {@code significandOnly} property with specified value.
          *
-         * @param significandOnly new value for the {@code significandOnly} property; {@code true} for not reading the
-         *                        sign bit; {@code false} for reading the sign bit.
+         * @param significandOnly new value for the {@code significandOnly} property; {@code true} for not writing the
+         *                        sign bit; {@code false} for writing the sign bit.
          * @return this object.
          * @implSpec This method invokes the {@link #setSignificandOnly(boolean)} method with given arguments, and
          * returns this object.

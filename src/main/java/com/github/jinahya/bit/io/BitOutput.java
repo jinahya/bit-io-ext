@@ -152,7 +152,7 @@ public interface BitOutput {
     }
 
     /**
-     * Writes specified {@code float} value with specified {@code exponent} size and {@code significand} size.
+     * Writes specified {@code double} value with specified {@code exponent} size and {@code significand} size.
      *
      * @param exponentSize    the number of lower exponent bits to write; between
      *                        {@value DoubleConstants#SIZE_MIN_EXPONENT} and {@value DoubleConstants#SIZE_EXPONENT},
@@ -225,7 +225,7 @@ public interface BitOutput {
     /**
      * Resets the total number of bytes written so far to {@code 0}.
      *
-     * @throws IllegalStateException if this input is not {@link #align(int) aligned}.
+     * @throws IllegalStateException if this output is not {@link #align(int) aligned}.
      */
     void reset();
 }

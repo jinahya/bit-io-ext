@@ -76,9 +76,12 @@ public class ByteOutputAdapter
             assert available == Byte.SIZE;
             return bits;
         }
-        for (int i = (bytes - (int) (this.count % bytes)); i > 0; i--) {
-            skip(Byte.SIZE);
-            bits += Byte.SIZE;
+        final int remainder = (int) (this.count % bytes);
+        if (remainder > 0) {
+            for (int i = bytes - remainder; i > 0; i--) {
+                skip(Byte.SIZE);
+                bits += Byte.SIZE;
+            }
         }
         assert available == Byte.SIZE;
         return bits;

@@ -57,7 +57,7 @@ public class BufferByteOutput
     @Override
     public void write(final int value) throws IOException {
         try {
-            target.put((byte) value); // BufferOverflowException, ReadOnlyBufferExceptio
+            target.put((byte) value); // BufferOverflowException, ReadOnlyBufferException
         } catch (final ReadOnlyBufferException robe) {
             throw new IOException("buffer is read-only; buffer: " + target, robe);
         } catch (final BufferOverflowException boe) {

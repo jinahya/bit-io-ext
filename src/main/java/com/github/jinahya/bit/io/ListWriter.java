@@ -39,7 +39,7 @@ public class ListWriter<E>
     /**
      * Creates a new instance for writing lists of specified element type using specified element writer.
      *
-     * @param elementWriter the writer for reading elements.
+     * @param elementWriter the writer for writing elements.
      */
     public ListWriter(final BitWriter<? super E> elementWriter) {
         super();

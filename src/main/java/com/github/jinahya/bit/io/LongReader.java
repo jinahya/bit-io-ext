@@ -48,7 +48,7 @@ public interface LongReader
      * @return {@inheritDoc}
      * @throws IOException {@inheritDoc}
      * @apiNote Default implementation invokes {@link #readLong(BitInput)} with {@code input}, and returns the result
-     * {@link Math#toIntExact(long) as an int}.
+     * as an {@code int} via {@link Math#toIntExact(long)}.
      * @see Math#toIntExact(long)
      */
     @Override

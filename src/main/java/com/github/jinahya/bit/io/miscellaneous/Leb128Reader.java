@@ -89,7 +89,7 @@ public abstract class Leb128Reader // NOSONAR
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A writer for writing <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">signed LEB128</a> values.
+     * A reader for reading <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">signed LEB128</a> values.
      */
     public static class OfSigned
             extends Leb128Reader {

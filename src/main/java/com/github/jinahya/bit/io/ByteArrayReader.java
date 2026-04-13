@@ -68,7 +68,7 @@ public class ByteArrayReader
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * .
+     * A reader for reading arrays of ASCII bytes in a compressed manner.
      *
      * @see ByteArrayWriter.CompressedAscii
      */
@@ -163,7 +163,7 @@ public class ByteArrayReader
     }
 
     /**
-     * Creates a new instance writes UTF-8 byte arrays in a compressed manner.
+     * Creates a new instance that reads UTF-8 byte arrays in a compressed manner.
      *
      * @return a new instance.
      * @see ByteArrayWriter#compressedUtf8()

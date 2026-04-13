@@ -28,7 +28,7 @@ import java.util.function.ToIntFunction;
 /**
  * Constants defined for reading/writing bits.
  *
- * @author Jin Kwon &lt;onacit_at_gmail.com&gt;\
+ * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 public final class BitIoConstants {
 

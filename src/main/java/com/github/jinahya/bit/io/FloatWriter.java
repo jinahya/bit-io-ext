@@ -306,7 +306,7 @@ public class FloatWriter
         /**
          * Sets the {@code significandOnly} property with specified value.
          *
-         * @param significandOnly new value for the {@code significand} property; {@code true} for not writing the sign
+         * @param significandOnly new value for the {@code significandOnly} property; {@code true} for not writing the sign
          *                        bit, {@code false} otherwise.
          * @return this object.
          * @implSpec This method invokes the {@link #setSignificandOnly(boolean)} method with {@code significandOnly},

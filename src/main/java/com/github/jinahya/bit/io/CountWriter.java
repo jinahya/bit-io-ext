@@ -34,9 +34,9 @@ import java.util.function.ObjIntConsumer;
 public interface CountWriter {
 
     /**
-     * Returns a new instance reads {@code count} values of specified bits.
+     * Returns a new instance that writes {@code count} values of specified bits.
      *
-     * @param size the number of bits to read for {@code count} values.
+     * @param size the number of bits to write for {@code count} values.
      * @return a new instance.
      */
     static ObjIntConsumer<BitOutput> newCountWriter(final int size) {
