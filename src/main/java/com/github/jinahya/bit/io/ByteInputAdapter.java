@@ -42,6 +42,7 @@ public class ByteInputAdapter
         this.input = Objects.requireNonNull(input, "input is null");
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public int readInt(final boolean unsigned, int size) throws IOException {
         BitIoConstraints.requireValidSizeForInt(unsigned, size);
@@ -123,7 +124,10 @@ public class ByteInputAdapter
         return (octet >> available) & BitIoUtils.bitMaskSingle(size);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     private final ByteInput input;
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * The current octet.

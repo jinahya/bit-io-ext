@@ -1,0 +1,60 @@
+= Analysis
+:toc:
+
+== Strengths
+
+=== Clean layered design
+
+The `ByteInput`/`ByteOutput` -> `BitInput`/`BitOutput` -> `BitReader`/`BitWriter` layering is well-structured.
+Each layer has a clear responsibility and the adapter/factory patterns make it easy to plug in different byte sources.
+
+=== Zero runtime dependencies
+
+For a library, this is ideal.
+
+=== Solid core bit-packing logic
+
+The core bit-packing logic in `ByteInputAdapter.unsigned8` / `ByteOutputAdapter.unsigned8` is solid.
+The recursive splitting when a read/write spans an octet boundary is elegant and correct.
+
+=== Good use of functional interfaces
+
+`BitReader<T>` and `BitWriter<T>` being `@FunctionalInterface` enables clean composition
+with `nullable()`, `FilterBitReader`, etc.
+
+== Concerns
+
+=== `CountReader` / `CountWriter` is the weakest part
+
+The `ToIntFunction` / `ObjIntConsumer` types force `IOException` into `RuntimeException`,
+and the reflective `setCountReader` default is fragile.
+A custom functional interface with `throws IOException` would be cleaner.
+
+=== Compressed UTF-8 reader/writer is brittle
+
+It assumes valid UTF-8 input and will throw `ArrayIndexOutOfBoundsException` on truncated sequences
+rather than a descriptive error.
+For a bit-level I/O library that might process untrusted streams, this is risky.
+
+=== Mutable state on reader/writer instances
+
+Mutable state (e.g., `CompressedNaN.significandOnly`, `setCountReader`) makes them non-thread-safe
+and harder to reason about.
+The compressed Float/Double classes would benefit from being immutable with configuration via constructor.
+
+=== VLQ and LEB128 implementations lack overflow protection
+
+The implementations work but lack overflow protection.
+Malformed input can silently produce wrong values instead of failing fast.
+
+=== Multi-byte alignment under-tested
+
+Test coverage is extensive (9600+ tests), which gives good confidence in the core paths.
+The `align(int)` bug surviving that coverage suggests multi-byte alignment with `bytes > 1` is under-tested.
+
+== Overall
+
+The core bit-reading/writing engine (`ByteInputAdapter` / `ByteOutputAdapter`) is well-implemented and trustworthy.
+The higher-level readers/writers (compressed types, VLQ, LEB128) could use hardening around edge cases
+and input validation.
+The library does its main job -- non-octet-aligned I/O -- cleanly.
