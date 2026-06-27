@@ -1,10 +1,14 @@
 /**
- * Defines extended bit-io readers and writers.
+ * Defines extensions for the {@code io.github.jinahya.bit.io} module.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see io.github.jinahya.bit.io.ext.miscellaneous
  */
-package io.github.jinahya.bit.io.ext;
+module io.github.jinahya.bit.io.ext {
+    requires transitive io.github.jinahya.bit.io;
+
+    exports io.github.jinahya.bit.io.ext;
+    exports io.github.jinahya.bit.io.ext.miscellaneous;
+}
 
 /*-
  * #%L

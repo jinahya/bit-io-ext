@@ -1,8 +1,8 @@
-package io.github.jinahya.bit.io;
+package io.github.jinahya.bit.io.ext;
 
 import com.github.jinahya.bit.io.BitReader;
 import com.github.jinahya.bit.io.BitWriter;
-import com.github.jinahya.bit.io.FilterBitWriter;
+import com.github.jinahya.bit.io.FilterBitReader;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -28,30 +28,30 @@ import java.util.function.Function;
  */
 
 /**
- * Extended writer filters on top of bit-io's {@link com.github.jinahya.bit.io.FilterBitWriter}.
+ * Extended reader filters on top of bit-io's {@link com.github.jinahya.bit.io.FilterBitReader}.
  *
  * @param <T> value type parameter
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see ExtendedFilterBitReader
+ * @see ExtendedFilterBitWriter
  */
-public abstract class ExtendedFilterBitWriter<T>
-        extends FilterBitWriter<T> {
+public abstract class ExtendedFilterBitReader<T>
+        extends FilterBitReader<T> {
 
     /**
-     * Creates a new writer that maps values before writing them to specified delegate.
+     * Creates a new reader that maps values read from specified delegate.
      *
-     * @param delegate a value writer for writing mapped values.
-     * @param mapper   a mapper for mapping original values.
-     * @param <T>      original value type parameter
-     * @param <TARGET> mapped value type parameter
-     * @return a new writer.
-     * @see ExtendedFilterBitReader#mapping(BitReader, Function)
+     * @param delegate a reader for reading original values.
+     * @param mapper   a mapper for mapping values.
+     * @param <SOURCE> original value type parameter
+     * @param <T>      mapped value type parameter
+     * @return a new reader.
+     * @see ExtendedFilterBitWriter#mapping(BitWriter, Function)
      */
-    public static <T, TARGET> BitWriter<T> mapping(final BitWriter<? super TARGET> delegate,
-                                                   final Function<? super T, ? extends TARGET> mapper) {
+    public static <SOURCE, T> BitReader<T> mapping(final BitReader<? extends SOURCE> delegate,
+                                                   final Function<? super SOURCE, ? extends T> mapper) {
         Objects.requireNonNull(delegate, "delegate is null");
         Objects.requireNonNull(mapper, "mapper is null");
-        return (o, v) -> delegate.write(o, mapper.apply(v));
+        return i -> mapper.apply(delegate.read(i));
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class ExtendedFilterBitWriter<T>
      *
      * @param delegate the delegate to wrap.
      */
-    protected ExtendedFilterBitWriter(final BitWriter<? super T> delegate) {
+    protected ExtendedFilterBitReader(final BitReader<? extends T> delegate) {
         super(delegate);
     }
 }

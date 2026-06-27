@@ -1,9 +1,10 @@
-package com.github.jinahya.bit.io.miscellaneous;
+package io.github.jinahya.bit.io.ext.miscellaneous;
 
 import com.github.jinahya.bit.io.BitInput;
 import com.github.jinahya.bit.io.BitOutput;
 import com.github.jinahya.bit.io.BitReader;
 import com.github.jinahya.bit.io.BitWriter;
+import com.github.jinahya.bit.io.miscellaneous.UuidRfc9562Bytes;
 
 import java.io.IOException;
 import java.util.UUID;

@@ -1,10 +1,11 @@
 /**
- * Defines extended bit-io readers and writers.
+ * Defines readers and writers for miscellaneous encodings.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see io.github.jinahya.bit.io.ext.miscellaneous
+ * @see io.github.jinahya.bit.io.ext.miscellaneous.MicrosoftGuid
+ * @see io.github.jinahya.bit.io.ext.miscellaneous.UuidRfc9562
  */
-package io.github.jinahya.bit.io.ext;
+package io.github.jinahya.bit.io.ext.miscellaneous;
 
 /*-
  * #%L

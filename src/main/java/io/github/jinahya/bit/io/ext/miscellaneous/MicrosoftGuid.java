@@ -1,9 +1,10 @@
-package com.github.jinahya.bit.io.miscellaneous;
+package io.github.jinahya.bit.io.ext.miscellaneous;
 
 import com.github.jinahya.bit.io.BitInput;
 import com.github.jinahya.bit.io.BitOutput;
 import com.github.jinahya.bit.io.BitReader;
 import com.github.jinahya.bit.io.BitWriter;
+import com.github.jinahya.bit.io.miscellaneous.UuidRfc9562Bytes;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -31,7 +32,8 @@ import java.util.UUID;
 /**
  * A codec for {@link UUID} values in Microsoft GUID binary byte order.
  *
- * <p>The first three UUID fields are encoded little-endian; the remaining eight octets are encoded in canonical order.</p>
+ * <p>The first three UUID fields are encoded little-endian; the remaining eight octets are encoded in canonical
+ * order.</p>
  *
  * @see UuidRfc9562
  */
