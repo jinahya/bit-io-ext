@@ -78,3 +78,8 @@ buildNumber.properties
 *.iml
 .idea
 !.idea/codeStyles
+
+.claude
+CLAUDE.md
+.codex
+AGENTS.md

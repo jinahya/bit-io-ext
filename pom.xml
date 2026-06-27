@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>io.github.jinahya</groupId>
-  <artifactId>bit-io2</artifactId>
+  <artifactId>bit-io-ext</artifactId>
   <version>0.3.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -88,6 +88,12 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>io.github.jinahya</groupId>
+      <artifactId>bit-io</artifactId>
+      <version>4.0.3-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -298,7 +304,7 @@
           <archive>
             <!-- https://dzone.com/articles/automatic-module-name-calling-all-java-library-maintainers -->
             <manifestEntries>
-              <Automatic-Module-Name>com.github.jinahya.bit.io</Automatic-Module-Name>
+              <Automatic-Module-Name>io.github.jinahya.bit.io.ext</Automatic-Module-Name>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
@@ -311,6 +317,7 @@
         <configuration>
           <argLine>
             @{argLine}
+            -javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${version.net.bytebuddy}/byte-buddy-agent-${version.net.bytebuddy}.jar
             --add-opens java.base/java.io=ALL-UNNAMED
             --add-opens java.base/java.nio.channels=ALL-UNNAMED
           </argLine>

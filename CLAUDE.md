@@ -25,9 +25,9 @@ JDK 17+ is required to build (enforced by maven-enforcer-plugin).
 
 2. **Bit I/O** — `BitInput` / `BitOutput` interfaces. `ByteInputAdapter` / `ByteOutputAdapter` bridge byte-level to bit-level. Factory classes (`BitInputFactory`, `BitOutputFactory`) create instances from various sources.
 
-3. **Typed readers/writers** — `BitReader<T>` / `BitWriter<T>` functional interfaces with specializations: `IntReader`, `LongReader`, `FloatReader`, `DoubleReader`, `StringReader`, `ByteArrayReader`, `ListReader` (and matching writers).
+3. **Typed readers/writers** — `BitReader<T>` / `BitWriter<T>` functional interfaces with specializations: `IntReader`, `LongReader`, `FloatReader`, `DoubleReader`, `StringReader`, `ByteArrayReader`, `ListReader` (and matching writers). `FloatReader`/`DoubleReader` (with `FloatBase`/`DoubleBase` and `*Constants`/`*Constraints` helpers) implement IEEE-754 bit-level compression of special values (zero, subnormal, infinity, NaN-significand-only); `StringReader`/`ByteArrayReader` implement ASCII/UTF-8 compression. These compression variants are the bulk of the test surface.
 
-4. **Miscellaneous encodings** — `com.github.jinahya.bit.io.miscellaneous` subpackage: VLQ and LEB128 readers/writers.
+4. **Miscellaneous encodings** — `com.github.jinahya.bit.io.miscellaneous` subpackage: VLQ and LEB128 readers/writers, exposed via `MiscellaneousBitInput` / `MiscellaneousBitOutput`.
 
 ### Core method signatures
 
@@ -49,12 +49,13 @@ void writeLong(boolean unsigned, int size, long value) throws IOException;
 - **Factory**: BitInputFactory/BitOutputFactory create adapters from streams/buffers/channels
 - **Decorator**: FilterBitReader/FilterBitWriter for composable behavior (nullable, mapping)
 - **Constraint validation**: `BitIoConstraints` centralizes bit-size validation
+- **Byte alignment**: `align(bytes)` pads/discards bits to a byte boundary; `BitOutput` must be aligned before its underlying byte sink is complete. Both `BitInput`/`BitOutput` support `reset()`.
 
 ## Testing
 
 - JUnit 5 + Mockito + AssertJ + ArchUnit
-- Test naming: `ClassName_Scenario_Test.java` (e.g., `Float_Wr_CompressedZero_Test.java`)
-- Parameterized tests with random value generation (`BitIoRandom`)
+- Test naming: `ClassName_Scenario_Test.java` (e.g., `Float_Wr_CompressedZero_Test.java`). The `_Wr_` infix marks write-then-read round-trip tests — the dominant test style (write a value, read it back, assert equality).
+- Parameterized tests with random value generation (`BitIoRandom`, `BitIoTestUtils`)
 
 ## Code Style
 
