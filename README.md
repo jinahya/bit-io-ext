@@ -1,8 +1,8 @@
 # bit-io-ext
 
-[![GitHub Action](https://github.com/jinahya/bit-io-ext/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/jinahya/bit-io-ext/actions?workflow=Java+CI)
+[![Java CI with Maven](https://github.com/jinahya/bit-io-ext/actions/workflows/maven.yml/badge.svg)](https://github.com/jinahya/bit-io-ext/actions/workflows/maven.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jinahya_bit-io-ext&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jinahya_bit-io-ext)
-![Maven Central](https://img.shields.io/maven-central/v/io.github.jinahya/bit-io-ext)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.jinahya/bit-io-ext)](https://central.sonatype.com/artifact/io.github.jinahya/bit-io-ext)
 [![javadoc](https://javadoc.io/badge2/io.github.jinahya/bit-io-ext/javadoc.svg)](https://javadoc.io/doc/io.github.jinahya/bit-io-ext)
 
 A thin extension on top of [bit-io](https://github.com/jinahya/bit-io), targeting Java 8+.
