@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -11,7 +10,7 @@
 
   <groupId>io.github.jinahya</groupId>
   <artifactId>bit-io-ext</artifactId>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>4.1.0</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -34,7 +33,7 @@
     <connection>scm:git:git@github.com:jinahya/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/${project.artifactId}.git</developerConnection>
     <url>https://github.com/jinahya/${project.artifactId}</url>
-    <tag>HEAD</tag>
+    <tag>4.1.0</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -247,7 +246,7 @@
             </goals>
             <configuration>
               <rules>
-                <dependencyConvergence/>
+                <dependencyConvergence />
                 <requireJavaVersion>
                   <version>[17.0.0,)</version>
                 </requireJavaVersion>
