@@ -88,7 +88,7 @@
     <dependency>
       <groupId>io.github.jinahya</groupId>
       <artifactId>bit-io</artifactId>
-      <version>4.0.3-SNAPSHOT</version>
+      <version>4.1.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
